@@ -18,18 +18,10 @@ pool.on('release', (connection) => {
 pool.on('connection', (connection) => {
   console.log(`Connection ${connection.threadId}`);
 });
-exports.createConnection = (session_id) => {
-  console.log(`[${session_id}] **********************createConnection******************************`);
-  // pool = mysql.createPool(mysqlConfig);
+exports.createConnection = () => {
+  console.log(`**********************createConnection******************************`);
 };
 exports.mysqlPool = pool;
-exports.endConnection = (session_id) => {
-  console.log(`[${session_id}] **********************endConnection******************************`);
-  // pool.end(function (err) {
-  //   if (err) {
-  //     console.log(`End Connection Err: ${err.toString()}`);
-  //   } else {
-  //     console.log(`End Connection Done!`);
-  //   }
-  // });
+exports.endConnection = () => {
+  console.log(`**********************endConnection******************************`);
 };
