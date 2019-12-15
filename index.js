@@ -16,16 +16,19 @@ exports.GetMapsData = async (req, res) => {
   try {
     console.log(req.body.id);
     console.log(req.body.title);
-    if (req.body.id != 0 && req.body.id != undefined) {
-      data = await getDataById(req.body.id);
-      console.log(data);
-    } else if (req.body.title != '' && req.body.title != undefined) {
-      data = await getDataByTitle(req.body.title);
-      console.log(data);
-    } else {
-      data = "Error: No input";
-      console.log(data);
-    }
+
+    data = await getData(req.body.id, req.body.title);
+
+    // if  (req.body.id != 0 && req.body.id != undefined) {
+    //   data = await getDataById(req.body.id);
+    //   console.log(data);
+    // } else if (req.body.title != '' && req.body.title != undefined) {
+    //   data = await getDataByTitle(req.body.title);
+    //   console.log(data);
+    // } else {
+    //   data = "Error: No input";
+    //   console.log(data);
+    // }
     
 
     res.setHeader('Access-Control-Allow-Origin', constantFun.constants.ALLOWED_ORIGINS);
@@ -46,8 +49,46 @@ exports.GetMapsData = async (req, res) => {
 
 };
 
+
+const getData = async (id, title) => {
+  let sql = '';
+  if (id == "*") {
+    sql = `SELECT * FROM address_lists`;
+  } else if (id != 0 && id != undefined && id != "*") {
+    sql = `SELECT * FROM address_lists WHERE address_id='${id}'`;
+  } else if (title != '' && title != undefined) {
+    sql = `SELECT * FROM address_lists WHERE title like '%${title}%' `;
+  } else {
+    return new Promise((resolve, reject) => {
+      reject(new Error("No input"));
+    }
+  )}
+
+  console.log(`[getData] SQL: ${sql}`);
+  let sqlFunction = require("./common/mysql");
+
+  return new Promise((resolve, reject) => {
+    sqlFunction.mysqlPool.query(sql, (err, result) => {
+      if (err) {
+        console.error(`getData -> sql error`);
+        reject(new Error(err.toString()))
+      } else {
+        console.log(`[getData] data: ${JSON.stringify(result)}`);
+        resolve(JSON.stringify(result));
+      }
+    });
+  });
+};
+
+
+
 const getDataById = async (id) => {
-  let sql = `SELECT * FROM address_lists WHERE address_id='${id}'`;
+  let sql = '';
+  if (id == "*") {
+    sql = `SELECT * FROM address_lists`;
+  } else {
+    sql = `SELECT * FROM address_lists WHERE address_id='${id}'`;
+  }
   console.log(`[getDataById] SQL: ${sql}`);
   let sqlFunction = require("./common/mysql");
 
