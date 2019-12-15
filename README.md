@@ -28,5 +28,8 @@ exports.constants = {
 };
 ```
 
+## デプロイ
+``` gcloud beta functions deploy GetMapsData --trigger-http --region asia-northeast1 --runtime nodejs10 ```
+
 ## 補足
 - フロント側にあるnuxt-view-search-map　から、axiosを利用してAPIを利用される想定
