@@ -3,6 +3,7 @@
 - POSTでid/titleを渡される(req.body.id / req.body.title)とトリガー
 - GCP CloudSQL(MySQL)へCloudSQL Proxy接続を行い、クエリを投げて、検索
 - 結果を返す。
+- 今回、このCloudFunctionsへは、nuxt-view-search-maps-ssr(CloudBuildへデプロイ)から接続。
 
 ## 環境変数は以下のファイルに保存
 ```common/constants.js```
