@@ -24,7 +24,6 @@ exports.constants = {
     'OPTIONS'
   ],
   ALLOWED_ORIGINS: [
-    'http://localhost:3000',
     'https://<your CloudRun application>.run.app'
   ]
 };
